@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amber">
         <activity
-            android:name=".ChatRoomActivity"
+            android:name=".ChatActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
