@@ -12,6 +12,7 @@
         android:maxWidth="170dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
+        android:id="@+id/amberitem"
         android:padding="10dp"/>
 
 
