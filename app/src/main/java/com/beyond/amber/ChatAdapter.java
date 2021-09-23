@@ -11,14 +11,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final int VIEW_TYPE_OTHERS = 0;
+    private final int VIEW_TYPE_USER = 1;
     List<ChatData> list = null;
+
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v  = inflater.inflate(R.layout.item_chat_amber,parent, false);
-        return new ChatViewHolder(v);
+
+        if(viewType== VIEW_TYPE_USER) {
+            View v = inflater.inflate(R.layout.item_chat_user, parent, false);
+            return new ChatViewHolder(v);
+        }
+        else{
+            View v = inflater.inflate(R.layout.item_chat_others, parent, false);
+            return new ChatViewHolder(v);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(list.get(position).sender==0) {
+            return VIEW_TYPE_USER;
+        }
+        else {
+            return VIEW_TYPE_OTHERS;
+        }
     }
 
     @Override
@@ -40,7 +60,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView txt;
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            txt = itemView.findViewById(R.id.amberitem);
+            txt = itemView.findViewById(R.id.chat);
 
         }
     }

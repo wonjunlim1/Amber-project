@@ -12,7 +12,7 @@
         android:maxWidth="170dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
-        android:id="@+id/amberitem"
+        android:id="@+id/chat"
         android:padding="10dp"/>
 
 

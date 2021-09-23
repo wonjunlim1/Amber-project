@@ -47,7 +47,7 @@ public class ChatActivity extends AppCompatActivity {
                 ChatData item = new ChatData();
                 item.msg = text.getText().toString();
                 item.time = Calendar.getInstance().getTime().getTime();
-                item.sender = 1;
+                item.sender = 0;
 
                 chatmodel.data.chatList.add(item);
                 chatmodel.saveData();
