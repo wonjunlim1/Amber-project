@@ -13,7 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ChatRoomModel {
-    ArrayList<ChatRoomData> data;
+    ArrayList<ChatDataList> data;
     OnLoadListener onLoadListener;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -28,7 +28,7 @@ public class ChatRoomModel {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                data = dataSnapshot.getValue(new GenericTypeIndicator<ArrayList<ChatRoomData>>(){});
+                data = dataSnapshot.getValue(new GenericTypeIndicator<ArrayList<ChatDataList>>(){});
 
                 if (onLoadListener != null){
                     onLoadListener.onLoad(data);
@@ -46,8 +46,24 @@ public class ChatRoomModel {
         onLoadListener = listener;
     }
 
+    public void newChatRoom(){
+        ChatDataList item = new ChatDataList();
+
+        //item.user = data.get(0).user;
+        //item.chatList =  data.get(0).chatList;
+        item.profile = "";
+        item.roomName = "Test";
+
+        data.add(item);
+        saveData();
+    }
+
+    public void saveData(){
+        DatabaseReference myRef = database.getReference("chatRoomEdit");
+        myRef.setValue(data);
+    }
 
     interface OnLoadListener{
-        void onLoad(ArrayList<ChatRoomData> data);
+        void onLoad(ArrayList<ChatDataList> data);
     }
 }

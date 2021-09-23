@@ -1,6 +1,8 @@
 package com.beyond.amber;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -33,7 +35,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         chatRoomModel.loadData();
         chatRoomModel.setOnLoadListener(new ChatRoomModel.OnLoadListener() {
             @Override
-            public void onLoad(ArrayList<ChatRoomData> data) {
+            public void onLoad(ArrayList<ChatDataList> data) {
                 chatRoomAdapter.list = data;
                 chatRoomAdapter.notifyDataSetChanged();
             }
@@ -42,26 +44,11 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         rv.setAdapter(chatRoomAdapter);
 
-
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
-
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+        Button btn = findViewById(R.id.plus);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-               Toast.makeText(ChatRoomActivity.this,value,Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
+            public void onClick(View view) {
+                chatRoomModel.newChatRoom();
             }
         });
 

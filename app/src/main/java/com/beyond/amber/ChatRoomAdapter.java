@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
-public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    List<ChatRoomData> list = null;
+public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    List<ChatDataList> list = null;
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -26,19 +26,21 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof ChatRoomViewHolder){
+        if (holder instanceof ChatRoomViewHolder) {
             ChatRoomViewHolder h = (ChatRoomViewHolder) holder;
-            ChatRoomData item = list.get(position);
+            ChatDataList item = list.get(position);
 
-            Glide
-                    .with(h.img)
-                    .load(item.profile)
-                    .circleCrop()
-                    //.placeholder(R.drawable.loading_spinner)
-                    .into(h.img);
+            if (item.profile != null) {
+                Glide
+                        .with(h.img)
+                        .load(item.profile)
+                        .circleCrop()
+                        //.placeholder(R.drawable.loading_spinner)
+                        .into(h.img);
+            }
 
             h.txt_name.setText(item.roomName);
-//            h.txt_msg.setText(item.message);
+            h.txt_msg.setText(item.getLastChatTest().msg);
         }
 
     }
@@ -49,10 +51,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         return list.size();
     }
-    class ChatRoomViewHolder extends RecyclerView.ViewHolder{
+
+    class ChatRoomViewHolder extends RecyclerView.ViewHolder {
         TextView txt_name;
         TextView txt_msg;
         ImageView img;
+
         public ChatRoomViewHolder(@NonNull View itemView) {
             super(itemView);
             txt_name = itemView.findViewById(R.id.name);
