@@ -18,7 +18,7 @@ public class ChatModel {
     OnLoadListener onLoadListener;
 
     public void loadData() {
-        DatabaseReference myRef = database.getReference("chatRoom").child("1");
+        DatabaseReference myRef = database.getReference("chatRoom").child("2");
 
 //        myRef.setValue("Hello, World!");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -44,6 +44,10 @@ public class ChatModel {
         this.onLoadListener = onLoadListener;
     }
 
+    public void saveData() {
+        DatabaseReference myRef = database.getReference("chatRoom").child("2");
+        myRef.setValue(data);
+    }
     interface OnLoadListener{
         void onLoad(ChatDataList data);
     }
