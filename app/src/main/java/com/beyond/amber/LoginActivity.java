@@ -2,6 +2,7 @@ package com.beyond.amber;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -107,6 +108,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void updateUI(FirebaseUser user){
-        user.
+        if(user == null){
+            return;
+        }
+        Log.d("Test", "" + user.getEmail());
+        Intent intent = new Intent(this, ChatRoomActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
