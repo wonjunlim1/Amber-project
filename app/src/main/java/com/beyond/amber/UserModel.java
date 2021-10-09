@@ -8,22 +8,23 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserModel {
 
-    ArrayList<UserData> userData;
+    HashMap<String, UserData> userData;
     UserModel.OnLoadListener onLoadListener;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     public void loadData(){
-        DatabaseReference myRef = database.getReference("user");
+        DatabaseReference myRef = database.getReference("users");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                userData = dataSnapshot.getValue(new GenericTypeIndicator<ArrayList<UserData>>(){});
+                userData = dataSnapshot.getValue(new GenericTypeIndicator<HashMap<String, UserData>>(){});
 
                 if (onLoadListener != null){
                     onLoadListener.onLoad(userData);
@@ -43,7 +44,7 @@ public class UserModel {
 
 
     interface OnLoadListener{
-        void onLoad(ArrayList<UserData> data);
+        void onLoad(HashMap<String, UserData> data);
     }
 
 }

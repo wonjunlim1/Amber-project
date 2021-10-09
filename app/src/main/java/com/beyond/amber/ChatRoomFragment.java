@@ -1,34 +1,35 @@
 package com.beyond.amber;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
-public class ChatRoomActivity extends AppCompatActivity {
+public class ChatRoomFragment extends Fragment {
+
+    ChatRoomAdapter chatRoomAdapter = new ChatRoomAdapter();
     ChatRoomModel chatRoomModel = new ChatRoomModel();
-    ChatRoomAdapter chatRoomAdapter;
+    @Nullable
+    @Override
+
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_call, container, false);
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_call);
-
-        RecyclerView rv = findViewById(R.id.recyclerview);
-        rv.setLayoutManager(new LinearLayoutManager(this));
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        RecyclerView rv = view.findViewById(R.id.recyclerview);
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         chatRoomAdapter = new ChatRoomAdapter();
 
@@ -44,14 +45,12 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         rv.setAdapter(chatRoomAdapter);
 
-        Button btn = findViewById(R.id.plus);
+        Button btn = view.findViewById(R.id.plus);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chatRoomModel.newChatRoom();
             }
         });
-
     }
-
 }

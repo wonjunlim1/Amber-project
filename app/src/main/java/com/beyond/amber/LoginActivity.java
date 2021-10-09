@@ -23,10 +23,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.HashMap;
+
 public class LoginActivity extends AppCompatActivity {
     private final int RC_SIGN_IN = 1;
     GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+    UserModel usermodel = new UserModel();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,8 +115,22 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         Log.d("Test", "" + user.getEmail());
-        Intent intent = new Intent(this, ChatRoomActivity.class);
-        startActivity(intent);
-        finish();
+        usermodel.loadData();
+        usermodel.setOnLoadListener(new UserModel.OnLoadListener() {
+            @Override
+            public void onLoad(HashMap<String, UserData> data) {
+
+                if(data.containsKey(user.getUid())) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Intent intent = new Intent(LoginActivity.this, ChatRoomActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 }
