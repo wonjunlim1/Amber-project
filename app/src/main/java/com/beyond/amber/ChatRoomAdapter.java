@@ -1,5 +1,6 @@
 package com.beyond.amber;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,15 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public ChatRoomViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(), ChatRoomActivity.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
+
             txt_name = itemView.findViewById(R.id.name);
             txt_msg = itemView.findViewById(R.id.message);
             img = itemView.findViewById(R.id.profile);
