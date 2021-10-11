@@ -48,6 +48,8 @@ public class ChatModel {
         DatabaseReference myRef = database.getReference("chatRoom").child("2");
         myRef.setValue(data);
     }
+
+
     interface OnLoadListener{
         void onLoad(ChatDataList data);
     }
