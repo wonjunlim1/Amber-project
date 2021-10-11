@@ -38,7 +38,7 @@ public class UserModel {
         });
     }
 
-    public void setOnLoadListener(UserModel.OnLoadListener listener){
+    public void setOnLoadListener(OnLoadListener listener){
         onLoadListener = listener;
     }
 

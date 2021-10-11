@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     ChatRoomFragment chatRoomFragment = new ChatRoomFragment();
+    UserListFragment userListFragment = new UserListFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +29,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.page_1:
+                    case R.id.page_search:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_layout, userListFragment)
+                                .commit();
+                        break;
+                    case R.id.page_chat:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_layout, chatRoomFragment)
                                 .commit();
                         break;
-                    case R.id.page_2:
-                        break;
-                    case R.id.page_3:
+                    case R.id.page_profile:
                         break;
                 }
 
