@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         Log.d("Test", "" + user.getEmail());
-        Intent intent = new Intent(this, ChatRoomActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         finish();
     }
