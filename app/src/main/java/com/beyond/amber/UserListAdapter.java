@@ -1,6 +1,7 @@
 package com.beyond.amber;
 
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    ArrayList<UserData> list = null;
+    ArrayList<Pair<String, UserData>> list = null;
     ChatRoomActivity chatRoomActivity = new ChatRoomActivity();
     @NonNull
     @Override
@@ -30,7 +31,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof UserListAdapter.UserListViewHolder) {
             UserListAdapter.UserListViewHolder h = (UserListAdapter.UserListViewHolder) holder;
-            UserData item = list.get(position);
+            UserData item = list.get(position).second;
 
             if (item.name != null) {
                 h.txt_name.setText(item.name);
@@ -43,6 +44,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemCount() {
         if (list == null) return 0;
         return list.size();
+    }
 
     class UserListViewHolder extends RecyclerView.ViewHolder {
         TextView txt_name;
@@ -58,11 +60,10 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ChatRoomActivity.class);
+                    Intent intent = new Intent(view.getContext(), ProfileActivity.class);
                     view.getContext().startActivity(intent);
                 }
             });
         }
     }
-
 }

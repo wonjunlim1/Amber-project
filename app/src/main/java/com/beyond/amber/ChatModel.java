@@ -16,9 +16,18 @@ public class ChatModel {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     ChatDataList data;
     OnLoadListener onLoadListener;
+    String chatId;
+
+    public ChatModel(int chatId){
+        this.chatId = String.valueOf(chatId);
+    }
+
+    public ChatModel(String chatId){
+        this.chatId = chatId;
+    }
 
     public void loadData() {
-        DatabaseReference myRef = database.getReference("chatRoom").child("2");
+        DatabaseReference myRef = database.getReference("chatRoom").child(chatId);
 
 //        myRef.setValue("Hello, World!");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -45,7 +54,7 @@ public class ChatModel {
     }
 
     public void saveData() {
-        DatabaseReference myRef = database.getReference("chatRoom").child("2");
+        DatabaseReference myRef = database.getReference("chatRoom").child(chatId);
         myRef.setValue(data);
     }
 

@@ -1,6 +1,7 @@
 package com.beyond.amber;
 
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<ChatDataList> list = null;
+    List<Pair<Integer, ChatDataList>> list = null;
 
     @NonNull
     @Override
@@ -29,7 +30,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ChatRoomViewHolder) {
             ChatRoomViewHolder h = (ChatRoomViewHolder) holder;
-            ChatDataList item = list.get(position);
+            ChatDataList item = list.get(position).second;
 
             if (item.profile != null) {
                 Glide
@@ -64,7 +65,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(itemView.getContext(), ChatRoomActivity.class);
+                    int position = getAdapterPosition();
+
+
+                    Intent intent = new Intent(itemView.getContext(), ChatActivity.class);
+                    intent.putExtra("chatID", list.get(position).first);
                     itemView.getContext().startActivity(intent);
                 }
             });

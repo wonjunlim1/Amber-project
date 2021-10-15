@@ -14,11 +14,16 @@ import java.util.Calendar;
 
 public class ChatActivity extends AppCompatActivity {
     ChatAdapter chatAdapter;
-    ChatModel chatmodel = new ChatModel();
+    ChatModel chatmodel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String chatId = getIntent().getStringExtra("chatID");
+        chatmodel = new ChatModel(chatId);
+
+
         setContentView(R.layout.activity_chat);
         EditText text = findViewById(R.id.text);
         ImageView send = findViewById(R.id.send);

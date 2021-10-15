@@ -1,6 +1,8 @@
 package com.beyond.amber;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +39,12 @@ public class ChatRoomFragment extends Fragment {
         chatRoomModel.setOnLoadListener(new ChatRoomModel.OnLoadListener() {
             @Override
             public void onLoad(ArrayList<ChatDataList> data) {
-                chatRoomAdapter.list = data;
+                ArrayList<Pair<Integer, ChatDataList>> list = new ArrayList<>();
+                for(int i=1; i<=data.size(); i++) {
+                    list.add(new Pair<>(i, data.get(i)));
+                }
+
+                chatRoomAdapter.list = list;
                 chatRoomAdapter.notifyDataSetChanged();
             }
         });
@@ -50,6 +57,8 @@ public class ChatRoomFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 chatRoomModel.newChatRoom();
+                Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+                view.getContext().startActivity(intent);
             }
         });
     }

@@ -15,6 +15,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"></activity>
+        <activity
+            android:name=".ChatActivity"
+            android:exported="true"></activity>
 
         <activity
             android:name=".ProfileActivity"

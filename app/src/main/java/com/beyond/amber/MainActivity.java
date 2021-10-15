@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     ChatRoomFragment chatRoomFragment = new ChatRoomFragment();
     UserListFragment userListFragment = new UserListFragment();
+    TabFragment tabFragment = new TabFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.page_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_layout, userListFragment)
+                                .replace(R.id.fragment_layout, tabFragment)
                                 .commit();
                         break;
                     case R.id.page_chat:
