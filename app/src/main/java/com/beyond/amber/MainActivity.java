@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     ChatRoomFragment chatRoomFragment = new ChatRoomFragment();
     UserListFragment userListFragment = new UserListFragment();
     TabFragment tabFragment = new TabFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_layout, chatRoomFragment)
+                .replace(R.id.fragment_layout, profileFragment)
                 .commit();
 
 
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
                                 .commit();
                         break;
                     case R.id.page_profile:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_layout, profileFragment)
+                                .commit();
                         break;
                 }
 

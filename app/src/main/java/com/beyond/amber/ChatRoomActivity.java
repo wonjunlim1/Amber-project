@@ -1,6 +1,7 @@
 package com.beyond.amber;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -36,7 +37,12 @@ public class ChatRoomActivity extends AppCompatActivity {
         chatRoomModel.setOnLoadListener(new ChatRoomModel.OnLoadListener() {
             @Override
             public void onLoad(ArrayList<ChatDataList> data) {
-                chatRoomAdapter.list = data;
+                chatRoomAdapter.list = new ArrayList();
+
+                for (int i=0;i<data.size();i++) {
+                    chatRoomAdapter.list.add(new Pair<>(i,data.get(i)));
+                }
+
                 chatRoomAdapter.notifyDataSetChanged();
             }
         });

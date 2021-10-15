@@ -40,7 +40,7 @@ public class ChatRoomFragment extends Fragment {
             @Override
             public void onLoad(ArrayList<ChatDataList> data) {
                 ArrayList<Pair<Integer, ChatDataList>> list = new ArrayList<>();
-                for(int i=1; i<=data.size(); i++) {
+                for(int i=0; i<data.size(); i++) {
                     list.add(new Pair<>(i, data.get(i)));
                 }
 
