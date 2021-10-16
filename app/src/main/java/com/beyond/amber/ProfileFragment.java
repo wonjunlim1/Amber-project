@@ -24,7 +24,7 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    ProfileModel profileModel = new ProfileModel();
+    ProfileModel profileModel;
 
     TextView nameTxt;
     TextView roleTxt;
@@ -33,6 +33,7 @@ public class ProfileFragment extends Fragment {
     ViewGroup mentorGroup;
     ViewGroup menteeGroup;
     Button confirmBtn;
+    Button chatBtn;
     EditText mentorTxt;
     EditText menteeTxt;
 
@@ -40,6 +41,10 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String uid = null;
+        if (getArguments() != null)
+            uid = getArguments().getString("uid");
+        profileModel = new ProfileModel(uid);
 
         nameTxt = view.findViewById(R.id.profile_name);
         roleTxt = view.findViewById(R.id.role);
@@ -50,6 +55,20 @@ public class ProfileFragment extends Fragment {
         menteeGroup = view.findViewById(R.id.chip_group_mentee);
         menteeTxt = view.findViewById(R.id.mentee_txt);
         confirmBtn = view.findViewById(R.id.confirm);
+        chatBtn = view.findViewById(R.id.chat_button);
+
+        if (profileModel.isMine()) {
+            chatBtn.setVisibility(View.GONE);
+        } else {
+            nameTxt.setEnabled(false);
+            roleTxt.setEnabled(false);
+            mentorSwi.setEnabled(false);
+            menteeSwi.setEnabled(false);
+
+            confirmBtn.setVisibility(View.GONE);
+            mentorTxt.setVisibility(View.GONE);
+            menteeTxt.setVisibility(View.GONE);
+        }
 
 
         confirmBtn.setEnabled(false);
@@ -71,10 +90,10 @@ public class ProfileFragment extends Fragment {
                     menteeSwi.setChecked(data.findMentee);
 
 
-                    while(mentorGroup.getChildCount() > 1){
+                    while (mentorGroup.getChildCount() > 1) {
                         mentorGroup.removeViewAt(0);
                     }
-                    while(menteeGroup.getChildCount() > 1){
+                    while (menteeGroup.getChildCount() > 1) {
                         menteeGroup.removeViewAt(0);
                     }
 
@@ -91,6 +110,12 @@ public class ProfileFragment extends Fragment {
         });
 
 
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         mentorTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -104,7 +129,7 @@ public class ProfileFragment extends Fragment {
         mentorTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(b == false){
+                if (b == false) {
                     addChip(mentorTxt.getText().toString(), mentorGroup);
                     mentorTxt.setText("");
                 }
@@ -122,7 +147,7 @@ public class ProfileFragment extends Fragment {
         menteeTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(b == false){
+                if (b == false) {
                     addChip(menteeTxt.getText().toString(), menteeGroup);
                     menteeTxt.setText("");
                 }
@@ -158,7 +183,7 @@ public class ProfileFragment extends Fragment {
 
         Chip chip = new Chip(getContext());
         chip.setText(text);
-        chip.setCloseIconVisible(true);
+        chip.setCloseIconVisible(profileModel.isMine());
         chip.setOnCloseIconClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

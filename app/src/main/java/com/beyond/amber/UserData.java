@@ -9,4 +9,5 @@ public class UserData {
     public boolean findMentee;
     public ArrayList<String> mentorHashTag = new ArrayList<>();
     public ArrayList<String> menteeHashTag = new ArrayList<>();
+    public ArrayList<Integer> chatRoomList = new ArrayList<>();
 }

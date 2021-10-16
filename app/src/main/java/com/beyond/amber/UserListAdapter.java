@@ -60,7 +60,10 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int position = getAdapterPosition();
+
                     Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+                    intent.putExtra("uid",list.get(position).first);
                     view.getContext().startActivity(intent);
                 }
             });

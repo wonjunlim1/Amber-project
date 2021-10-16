@@ -11,17 +11,28 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ProfileModel {
+public class ProfileModel extends ChatRoomModel {
 
     UserData ProfileData;
     OnLoadListener onLoadListener;
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String uid;
 
+    public ProfileModel(String uid){
+        if(uid == null){
+            this.uid = user.getUid();
+        }else {
+            this.uid = uid;
+        }
+    }
+
+    public boolean isMine(){
+        return uid.equals(user.getUid());
+    }
 
     public void loadData() {
-        DatabaseReference myRef = database.getReference("users").child(user.getUid());
+        DatabaseReference myRef = database.getReference("users").child(uid);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -52,9 +63,12 @@ public class ProfileModel {
     }
 
     public void saveData(UserData saveData) {
-        DatabaseReference myRef = database.getReference("users").child(user.getUid());
+        DatabaseReference myRef = database.getReference("users").child(uid);
+        ProfileData = saveData;
         myRef.setValue(saveData);
-
     }
 
+    public void uploadProfileImg(){
+        
+    }
 }
