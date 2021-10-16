@@ -6,28 +6,47 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+public class ProfileModel {
 
-public class ProfileModel extends ChatRoomModel {
-
-    UserData ProfileData;
+    UserData profileData;
     OnLoadListener onLoadListener;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String uid;
 
-    public ProfileModel(String uid){
-        if(uid == null){
+    private static ProfileModel me;
+
+    public static ProfileModel getInstance() {
+        return getInstance(null);
+    }
+
+    public static ProfileModel getInstance(String uid) {
+        if (uid == null || uid.equals(user.getUid())) {
+            if (me == null) {
+                me = new ProfileModel();
+                me.loadData();
+            }
+            return me;
+        } else {
+            return new ProfileModel(uid);
+        }
+    }
+
+    private ProfileModel(String uid) {
+        if (uid == null) {
             this.uid = user.getUid();
-        }else {
+        } else {
             this.uid = uid;
         }
     }
 
-    public boolean isMine(){
+    private ProfileModel() {
+        this(null);
+    }
+
+    public boolean isMine() {
         return uid.equals(user.getUid());
     }
 
@@ -39,10 +58,10 @@ public class ProfileModel extends ChatRoomModel {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                ProfileData = dataSnapshot.getValue(UserData.class);
+                profileData = dataSnapshot.getValue(UserData.class);
 
                 if (onLoadListener != null) {
-                    onLoadListener.onLoad(ProfileData);
+                    onLoadListener.onLoad(profileData);
                 }
             }
 
@@ -64,11 +83,28 @@ public class ProfileModel extends ChatRoomModel {
 
     public void saveData(UserData saveData) {
         DatabaseReference myRef = database.getReference("users").child(uid);
-        ProfileData = saveData;
+        profileData = saveData;
         myRef.setValue(saveData);
     }
 
-    public void uploadProfileImg(){
-        
+    public void uploadProfileImg() {
+
+    }
+
+    public int newChat() {
+        for (String uid : profileData.chatRoomList.keySet()) {
+            if (uid.equals(user.getUid())) return profileData.chatRoomList.get(uid);
+        }
+
+        ChatRoomModel model = ChatRoomModel.getInstance();
+
+        int newChatId = model.newChatRoom();
+
+        profileData.chatRoomList.put(user.getUid(), newChatId);
+        me.profileData.chatRoomList.put(uid, newChatId);
+
+        saveData(profileData);
+        me.saveData(me.profileData);
+        return newChatId;
     }
 }

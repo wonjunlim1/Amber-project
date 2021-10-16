@@ -42,7 +42,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
             h.txt_name.setText(item.roomName);
-            h.txt_msg.setText(item.getLastChatTest().msg);
+
+            if (item.getLastChatTest() != null) {
+                h.txt_msg.setText(item.getLastChatTest().msg);
+            } else {
+                h.txt_msg.setText("");
+            }
         }
 
     }

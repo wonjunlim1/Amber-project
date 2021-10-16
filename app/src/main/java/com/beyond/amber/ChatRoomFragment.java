@@ -15,14 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChatRoomFragment extends Fragment {
 
     ChatRoomAdapter chatRoomAdapter = new ChatRoomAdapter();
-    ChatRoomModel chatRoomModel = new ChatRoomModel();
+    ChatRoomModel chatRoomModel = ChatRoomModel.getInstance();
+    ProfileModel profileModel = ProfileModel.getInstance();
+    UserModel userModel = new UserModel();
+
     @Nullable
     @Override
-
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_call, container, false);
     }
@@ -36,16 +39,25 @@ public class ChatRoomFragment extends Fragment {
         chatRoomAdapter = new ChatRoomAdapter();
 
         chatRoomModel.loadData();
+        profileModel.loadData();
+        userModel.loadData();
+
         chatRoomModel.setOnLoadListener(new ChatRoomModel.OnLoadListener() {
             @Override
             public void onLoad(ArrayList<ChatDataList> data) {
-                ArrayList<Pair<Integer, ChatDataList>> list = new ArrayList<>();
-                for(int i=0; i<data.size(); i++) {
-                    list.add(new Pair<>(i, data.get(i)));
-                }
-
-                chatRoomAdapter.list = list;
-                chatRoomAdapter.notifyDataSetChanged();
+                update();
+            }
+        });
+        profileModel.setOnLoadListener(new ProfileModel.OnLoadListener() {
+            @Override
+            public void onLoad(UserData data) {
+                update();
+            }
+        });
+        userModel.setOnLoadListener(new UserModel.OnLoadListener() {
+            @Override
+            public void onLoad(HashMap<String, UserData> data) {
+                update();
             }
         });
 
@@ -61,5 +73,29 @@ public class ChatRoomFragment extends Fragment {
                 view.getContext().startActivity(intent);
             }
         });
+    }
+
+    public void update(){
+        UserData userData = profileModel.profileData;
+        ArrayList<ChatDataList> chatDataList = chatRoomModel.data;
+        HashMap<String, UserData> userListData = userModel.userData;
+
+        if (userData == null || chatDataList == null || userListData == null) return;
+        ArrayList<Pair<Integer, ChatDataList>> list = new ArrayList<>();
+
+////////////////
+        for (String uid : userData.chatRoomList.keySet()) {
+            int chatId = userData.chatRoomList.get(uid);
+            ChatDataList chatData = chatDataList.get(chatId);
+//            chatData.profile = userListData.get(uid).img;
+            chatData.roomName = userListData.get(uid).name;
+
+            list.add(new Pair<>(chatId, chatData));
+        }
+//////////////
+
+
+        chatRoomAdapter.list = list;
+        chatRoomAdapter.notifyDataSetChanged();
     }
 }

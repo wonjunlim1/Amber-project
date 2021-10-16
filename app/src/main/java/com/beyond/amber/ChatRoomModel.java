@@ -17,6 +17,19 @@ public class ChatRoomModel {
     OnLoadListener onLoadListener;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    static ChatRoomModel instance;
+
+    public static ChatRoomModel getInstance() {
+        if (instance == null){
+            instance = new ChatRoomModel();
+            instance.loadData();
+        }
+        return instance;
+    }
+
+    private ChatRoomModel(){}
+
     public void loadData(){
         DatabaseReference myRef = database.getReference("chatRoom");
 
@@ -46,20 +59,22 @@ public class ChatRoomModel {
         onLoadListener = listener;
     }
 
-    public void newChatRoom(){
+    public int newChatRoom(){
         ChatDataList item = new ChatDataList();
 
         //item.user = data.get(0).user;
         //item.chatList =  data.get(0).chatList;
+
         item.profile = "";
         item.roomName = "Test";
 
         data.add(item);
         saveData();
+        return data.size() - 1;
     }
 
     public void saveData(){
-        DatabaseReference myRef = database.getReference("chatRoomEdit");
+        DatabaseReference myRef = database.getReference("chatRoom");
         myRef.setValue(data);
     }
 

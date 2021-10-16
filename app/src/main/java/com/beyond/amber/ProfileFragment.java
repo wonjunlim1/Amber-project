@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment {
         String uid = null;
         if (getArguments() != null)
             uid = getArguments().getString("uid");
-        profileModel = new ProfileModel(uid);
+        profileModel = ProfileModel.getInstance(uid);
 
         nameTxt = view.findViewById(R.id.profile_name);
         roleTxt = view.findViewById(R.id.role);
@@ -113,7 +113,7 @@ public class ProfileFragment extends Fragment {
         chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                profileModel.newChat();
             }
         });
 

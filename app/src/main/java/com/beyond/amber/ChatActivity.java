@@ -20,7 +20,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String chatId = getIntent().getStringExtra("chatID");
+        int chatId = getIntent().getIntExtra("chatID", 0);
         chatmodel = new ChatModel(chatId);
 
 
