@@ -87,7 +87,7 @@ public class ChatRoomFragment extends Fragment {
         for (String uid : userData.chatRoomList.keySet()) {
             int chatId = userData.chatRoomList.get(uid);
             ChatDataList chatData = chatDataList.get(chatId);
-//            chatData.profile = userListData.get(uid).img;
+            chatData.profile = userListData.get(uid).img;
             chatData.roomName = userListData.get(uid).name;
 
             list.add(new Pair<>(chatId, chatData));

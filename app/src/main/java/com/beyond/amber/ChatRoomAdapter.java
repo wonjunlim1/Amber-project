@@ -1,6 +1,7 @@
 package com.beyond.amber;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -33,12 +38,18 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ChatDataList item = list.get(position).second;
 
             if (item.profile != null) {
-                Glide
-                        .with(h.img)
-                        .load(item.profile)
-                        .circleCrop()
-                        //.placeholder(R.drawable.loading_spinner)
-                        .into(h.img);
+
+                FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+                StorageReference storageRef = storage.getReference("images").child(item.profile); // 스토리지 공간을 참조해서 이미지를 가져옴
+                storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        Glide.with(h.img)
+                                .load(task.getResult())
+                                .into(h.img);
+
+                    }
+                });
             }
 
             h.txt_name.setText(item.roomName);

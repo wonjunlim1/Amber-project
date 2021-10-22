@@ -1,20 +1,38 @@
 package com.beyond.amber;
 
+import android.content.ContentUris;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 public class ProfileFragment extends Fragment {
 
@@ -36,6 +54,7 @@ public class ProfileFragment extends Fragment {
     Button chatBtn;
     EditText mentorTxt;
     EditText menteeTxt;
+    ImageView profilePic;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -56,6 +75,7 @@ public class ProfileFragment extends Fragment {
         menteeTxt = view.findViewById(R.id.mentee_txt);
         confirmBtn = view.findViewById(R.id.confirm);
         chatBtn = view.findViewById(R.id.chat_button);
+        profilePic = view.findViewById(R.id.profile_picture);
 
         if (profileModel.isMine()) {
             chatBtn.setVisibility(View.GONE);
@@ -84,6 +104,20 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onLoad(UserData data) {
                 if (data != null) {
+                    if(data.img != null){
+                        FirebaseStorage storage = FirebaseStorage.getInstance(); // FirebaseStorage 인스턴스 생성
+                        StorageReference storageRef = storage.getReference("images").child(data.img); // 스토리지 공간을 참조해서 이미지를 가져옴
+                        storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                Glide.with(view)
+                                        .load(task.getResult())
+                                        .into(profilePic);
+
+                            }
+                        });
+                    }
+
                     nameTxt.setText(data.name);
                     roleTxt.setText(data.role);
                     mentorSwi.setChecked(data.findMentor);
@@ -114,6 +148,17 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 profileModel.newChat();
+            }
+        });
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                // 갤러리 액티비티로부터 가져온 결과 데이터를 처리하기 위해
+                // StartActivityForResult() 함수를 통해 액티비티를 실행
+                startActivityForResult(intent, 111);
             }
         });
 
@@ -156,8 +201,48 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 111) {
+            Uri file = data.getData();
+            String path = "images/" + file.getLastPathSegment();
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference riversRef = storage.getReference().child(path);
+            UploadTask uploadTask = riversRef.putFile(file);
+
+// Register observers to listen for when the download is done or if it fails
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                    exception.printStackTrace();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    // ...
+
+                    profilePic.setImageURI(file);
+                    profilePic.setTag(file.getLastPathSegment());
+                    Toast.makeText(getContext(), "complete", Toast.LENGTH_SHORT).show();
+                    Log.d("Upload",taskSnapshot.getUploadSessionUri().getEncodedPath());
+                }
+            });
+        }
+    }
+
+
     void submit() {
         UserData userData = new UserData();
+
+        if (profilePic.getTag() != null){
+            userData.img = profilePic.getTag().toString();
+        }else{
+            userData.img = profileModel.profileData.img;
+        }
 
         userData.name = nameTxt.getText().toString();
         userData.role = roleTxt.getText().toString();
