@@ -82,8 +82,8 @@ public class ProfileFragment extends Fragment {
         } else {
             nameTxt.setEnabled(false);
             roleTxt.setEnabled(false);
-            mentorSwi.setEnabled(false);
-            menteeSwi.setEnabled(false);
+            menteeSwi.setClickable(false);
+            mentorSwi.setClickable(false);
 
             confirmBtn.setVisibility(View.GONE);
             mentorTxt.setVisibility(View.GONE);
@@ -147,7 +147,11 @@ public class ProfileFragment extends Fragment {
         chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                profileModel.newChat();
+
+                int chatId = profileModel.newChat();
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                intent.putExtra("chatID", chatId);
+                startActivity(intent);
             }
         });
 
@@ -198,6 +202,12 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
+    }
+    public void onResume() {
+        super.onResume();
+
+        profileModel.loadData();
 
     }
 

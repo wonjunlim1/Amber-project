@@ -43,9 +43,15 @@ public class ChatRoomModel {
                 // whenever data at this location is updated.
                 data = dataSnapshot.getValue(new GenericTypeIndicator<ArrayList<ChatDataList>>(){});
 
+                if (data == null){
+                    data = new ArrayList<>();
+                }
+
                 if (onLoadListener != null){
                     onLoadListener.onLoad(data);
                 }
+
+                myRef.removeEventListener(this);
             }
 
             @Override
@@ -59,8 +65,12 @@ public class ChatRoomModel {
         onLoadListener = listener;
     }
 
-    public int newChatRoom(){
+    public int newChatRoom(String[] uidList){
         ChatDataList item = new ChatDataList();
+
+        for (String uid : uidList){
+            item.user.add(uid);
+        }
 
         //item.user = data.get(0).user;
         //item.chatList =  data.get(0).chatList;

@@ -8,12 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_OTHERS = 0;
     private final int VIEW_TYPE_USER = 1;
     List<ChatData> list = null;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
     @NonNull
@@ -33,7 +38,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if(list.get(position).sender==0) {
+        if(list.get(position).sender.equals(user.getUid())) {
             return VIEW_TYPE_USER;
         }
         else {

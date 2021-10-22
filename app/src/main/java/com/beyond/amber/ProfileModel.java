@@ -64,6 +64,8 @@ public class ProfileModel {
                 if (onLoadListener != null) {
                     onLoadListener.onLoad(profileData);
                 }
+
+                myRef.removeEventListener(this);
             }
 
             @Override
@@ -96,7 +98,7 @@ public class ProfileModel {
 
         ChatRoomModel model = ChatRoomModel.getInstance();
 
-        int newChatId = model.newChatRoom();
+        int newChatId = model.newChatRoom(new String[]{uid, user.getUid()});
 
         profileData.chatRoomList.put(user.getUid(), newChatId);
         me.profileData.chatRoomList.put(uid, newChatId);

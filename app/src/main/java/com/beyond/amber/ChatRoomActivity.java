@@ -49,15 +49,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
 
         rv.setAdapter(chatRoomAdapter);
-
-        Button btn = findViewById(R.id.plus);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatRoomModel.newChatRoom();
-            }
-        });
-
+        
     }
 
 }

@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Calendar;
 
 public class ChatActivity extends AppCompatActivity {
@@ -50,7 +53,8 @@ public class ChatActivity extends AppCompatActivity {
                 ChatData item = new ChatData();
                 item.msg = text.getText().toString();
                 item.time = Calendar.getInstance().getTime().getTime();
-                item.sender = 0;
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                item.sender = user.getUid();
 
                 chatmodel.data.chatList.add(item);
                 chatmodel.saveData();

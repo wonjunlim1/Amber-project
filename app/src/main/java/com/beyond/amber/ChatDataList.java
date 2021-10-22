@@ -11,14 +11,11 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class ChatDataList implements Serializable {
-    @Nullable public ArrayList<Integer> user;
-    @Nullable public ArrayList<ChatData> chatList = new ArrayList<>();
+    public ArrayList<String> user = new ArrayList<>();
+    public ArrayList<ChatData> chatList = new ArrayList<>();
 
-    @Exclude
-    public String profile;
-    @Exclude
-    public String roomName;
-
+    @Exclude public String profile;
+    @Exclude public String roomName;
 
     public ChatData getLastChatTest(){
 

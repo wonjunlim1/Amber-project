@@ -38,9 +38,6 @@ public class ChatRoomFragment extends Fragment {
 
         chatRoomAdapter = new ChatRoomAdapter();
 
-        chatRoomModel.loadData();
-        profileModel.loadData();
-        userModel.loadData();
 
         chatRoomModel.setOnLoadListener(new ChatRoomModel.OnLoadListener() {
             @Override
@@ -63,16 +60,15 @@ public class ChatRoomFragment extends Fragment {
 
 
         rv.setAdapter(chatRoomAdapter);
+    }
 
-        Button btn = view.findViewById(R.id.plus);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatRoomModel.newChatRoom();
-                Intent intent = new Intent(view.getContext(), ProfileActivity.class);
-                view.getContext().startActivity(intent);
-            }
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        chatRoomModel.loadData();
+        userModel.loadData();
+
     }
 
     public void update(){

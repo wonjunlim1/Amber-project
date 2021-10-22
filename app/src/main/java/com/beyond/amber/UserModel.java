@@ -29,6 +29,7 @@ public class UserModel {
                 if (onLoadListener != null){
                     onLoadListener.onLoad(userData);
                 }
+                myRef.removeEventListener(this);
             }
 
             @Override
