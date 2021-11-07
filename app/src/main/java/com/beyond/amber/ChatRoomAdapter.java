@@ -22,7 +22,6 @@ import java.util.List;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Pair<Integer, ChatDataList>> list = null;
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -88,6 +87,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                     Intent intent = new Intent(itemView.getContext(), ChatActivity.class);
                     intent.putExtra("chatID", list.get(position).first);
+                    intent.putExtra("img", list.get(position).second);
+                    intent.putExtra("name", profileModel.profileData.name);
                     itemView.getContext().startActivity(intent);
                 }
             });

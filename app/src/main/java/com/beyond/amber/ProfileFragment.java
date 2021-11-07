@@ -151,6 +151,8 @@ public class ProfileFragment extends Fragment {
                 int chatId = profileModel.newChat();
                 Intent intent = new Intent(getContext(), ChatActivity.class);
                 intent.putExtra("chatID", chatId);
+                intent.putExtra("img", profileModel.profileData.img);
+                intent.putExtra("name", profileModel.profileData.name);
                 startActivity(intent);
             }
         });

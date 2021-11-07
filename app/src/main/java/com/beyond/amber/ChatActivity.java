@@ -24,7 +24,11 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         int chatId = getIntent().getIntExtra("chatID", 0);
+        String img = getIntent().getStringExtra("img");
+        String name = getIntent().getStringExtra("name");
         chatmodel = new ChatModel(chatId);
+
+
 
 
         setContentView(R.layout.activity_chat);
@@ -52,6 +56,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ChatData item = new ChatData();
                 item.msg = text.getText().toString();
+                if(item.msg.replaceAll(" ", "").isEmpty()) return;
                 item.time = Calendar.getInstance().getTime().getTime();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 item.sender = user.getUid();

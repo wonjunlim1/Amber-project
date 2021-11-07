@@ -8,10 +8,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/chat_amber_background"
         android:text="안녕하세요 저는 인공지능 챗봇 엠버라고 합니다"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:maxWidth="170dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginVertical="8dp"
         android:id="@+id/chat"
         android:padding="10dp"/>
 

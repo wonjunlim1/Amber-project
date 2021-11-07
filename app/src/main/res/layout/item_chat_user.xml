@@ -9,10 +9,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/chat_user_background"
         android:text="안녕 엠버야 난 사용자 ㅇㅇㅇ이야"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:maxWidth="170dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginVertical="8dp"
         android:layout_gravity="right"
         android:padding="10dp"/>
 
