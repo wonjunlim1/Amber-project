@@ -13,13 +13,15 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="#0031BA">
         <ImageView
-            android:id="@+id/amber"
+            android:id="@+id/profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/amber"
+            android:src="@drawable/ic_face_black_48dp"
+            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             />
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="엠버"

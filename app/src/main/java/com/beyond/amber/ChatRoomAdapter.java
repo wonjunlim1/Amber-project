@@ -87,8 +87,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                     Intent intent = new Intent(itemView.getContext(), ChatActivity.class);
                     intent.putExtra("chatID", list.get(position).first);
-                    intent.putExtra("img", list.get(position).second);
-                    intent.putExtra("name", profileModel.profileData.name);
+                    intent.putExtra("img", list.get(position).second.profile);
+                    intent.putExtra("name", list.get(position).second.roomName);
                     itemView.getContext().startActivity(intent);
                 }
             });
