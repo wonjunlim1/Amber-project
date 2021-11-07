@@ -2,19 +2,16 @@
     <item
         android:id="@+id/page_profile"
         android:enabled="true"
-        android:icon="@drawable/ic_account_circle_black_48dp"
-        android:title="profile"
-        android:color="#0031BA"/>
+        android:icon="@mipmap/ic_launcher"
+        android:title="profile"/>
     <item
         android:id="@+id/page_chat"
         android:enabled="true"
-        android:icon="@drawable/ic_chat_bubble_black_48dp"
-        android:title="chat"
-        android:color="#0031BA"/>
+        android:icon="@mipmap/ic_launcher_round"
+        android:title="chat"/>
     <item
         android:id="@+id/page_search"
         android:enabled="true"
-        android:icon="@drawable/ic_search_black_48dp"
-        android:title="search"
-        android:color="#0031BA"/>
+        android:icon="@mipmap/ic_launcher_round"
+        android:title="search"/>
 </menu>

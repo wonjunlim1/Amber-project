@@ -45,8 +45,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     public void onComplete(@NonNull Task<Uri> task) {
                         Glide.with(h.img)
                                 .load(task.getResult())
-                                .circleCrop()
-                                .placeholder(R.drawable.ic_face_black_48dp)
                                 .into(h.img);
 
                     }
@@ -87,8 +85,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                     Intent intent = new Intent(itemView.getContext(), ChatActivity.class);
                     intent.putExtra("chatID", list.get(position).first);
-                    intent.putExtra("img", list.get(position).second);
-                    intent.putExtra("name", profileModel.profileData.name);
                     itemView.getContext().startActivity(intent);
                 }
             });

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/top_linear"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#0031BA">
+        android:background="#ff3456">
         <ImageView
             android:id="@+id/amber"
             android:layout_width="50dp"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="엠버"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
