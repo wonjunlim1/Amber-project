@@ -1,4 +1,4 @@
-package com.beyond.amber;
+package com.beyond.amber.dto;
 
 import java.io.Serializable;
 

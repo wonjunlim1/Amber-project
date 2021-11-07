@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/top_linear"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#ff3456">
+        android:background="#0031ba">
         <ImageView
             android:id="@+id/profile"
             android:layout_width="50dp"
@@ -25,14 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="엠버"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 
@@ -63,10 +60,10 @@
             android:id="@+id/send"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/sendicon"
             android:adjustViewBounds="true"
             android:layout_marginRight="10dp"
-            android:layout_weight="1"
             />
 
     </LinearLayout>

@@ -1,8 +1,6 @@
 package com.beyond.amber;
 
-import android.util.Log;
-import android.widget.Toast;
-
+import com.beyond.amber.dto.ChatDataList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

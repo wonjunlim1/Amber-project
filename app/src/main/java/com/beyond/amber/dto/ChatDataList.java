@@ -1,13 +1,10 @@
-package com.beyond.amber;
+package com.beyond.amber.dto;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.google.firebase.database.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @IgnoreExtraProperties
 public class ChatDataList implements Serializable {

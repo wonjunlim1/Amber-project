@@ -1,11 +1,8 @@
 package com.beyond.amber;
 
-import android.content.ContentUris;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import com.beyond.amber.dto.UserData;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,8 +29,6 @@ import com.google.android.material.chip.Chip;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
 
 public class ProfileFragment extends Fragment {
 
@@ -162,6 +158,8 @@ public class ProfileFragment extends Fragment {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!profileModel.isMine()) return;
+
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 // 갤러리 액티비티로부터 가져온 결과 데이터를 처리하기 위해
@@ -218,7 +216,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 111) {
+        if (requestCode == 111 && data != null) {
             Uri file = data.getData();
             String path = "images/" + file.getLastPathSegment();
 
@@ -250,12 +248,10 @@ public class ProfileFragment extends Fragment {
 
 
     void submit() {
-        UserData userData = new UserData();
+        UserData userData = profileModel.profileData;
 
         if (profilePic.getTag() != null){
             userData.img = profilePic.getTag().toString();
-        }else{
-            userData.img = profileModel.profileData.img;
         }
 
         userData.name = nameTxt.getText().toString();
@@ -263,10 +259,14 @@ public class ProfileFragment extends Fragment {
         userData.findMentor = mentorSwi.isChecked();
         userData.findMentee = menteeSwi.isChecked();
 
+
+        userData.mentorHashTag.clear();
         for (int i = 0; i < mentorGroup.getChildCount() - 1; i++) {
             Chip chip = (Chip) mentorGroup.getChildAt(i);
             userData.mentorHashTag.add(chip.getText().toString());
         }
+
+        userData.menteeHashTag.clear();
         for (int i = 0; i < menteeGroup.getChildCount() - 1; i++) {
             Chip chip = (Chip) menteeGroup.getChildAt(i);
             userData.menteeHashTag.add(chip.getText().toString());
@@ -274,6 +274,7 @@ public class ProfileFragment extends Fragment {
 
 
         profileModel.saveData(userData);
+        Toast.makeText(getContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
     }
 
     void addChip(String text, ViewGroup parent) {
