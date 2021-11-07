@@ -13,8 +13,12 @@
         android:text="LOGIN"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:background="#4239FF">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#0031ba">
 
     </androidx.appcompat.widget.AppCompatButton>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,7 +46,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         Glide.with(h.img)
                                 .load(task.getResult())
                                 .circleCrop()
-                                .placeholder(R.drawable.ic_face_black_48dp)
                                 .into(h.img);
 
                     }

@@ -112,6 +112,8 @@ public class ProfileFragment extends Fragment {
                             public void onComplete(@NonNull Task<Uri> task) {
                                 Glide.with(view)
                                         .load(task.getResult())
+                                        .circleCrop()
+                                        .placeholder(R.drawable.ic_face_black_48dp)
                                         .into(profilePic);
 
                             }
